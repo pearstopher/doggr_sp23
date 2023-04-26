@@ -51,8 +51,8 @@
   "mikro-orm": {
     "useTsNode": true,
     "configPaths": [
-      "./src/db/mikro-orm.config.js",
-      "./build/db/mikro-orm.config.js"
+      "./src/db/mikro-orm.config.ts",
+      "./build/db/mikro-orm.config.ts"
     ]
   },
   "tap": {
