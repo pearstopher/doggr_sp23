@@ -54,6 +54,28 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 			return reply.status(500).send({ message: err.message});
 		}
 	});
+
+
+	// We have to use .route() here because we need a non-standard http method, SEARCH
+	app.route<{Body: { email: string}}>(
+		{
+			method: "SEARCH",
+			url: "/users",
+
+			handler: async(req, reply) =>
+			{
+				const { email } = req.body;
+				console.log("Email is: ", email);
+				try {
+					const theUser = await req.em.findOne(User, { email });
+					console.log(theUser);
+					reply.send(theUser);
+				} catch (err) {
+					console.error(err);
+					reply.status(500).send(err);
+				}
+			}
+		});
 }
 
 export default DoggrRoutes;
