@@ -1,6 +1,7 @@
 // Routes.ts
 import {User} from "./db/entities/User.js";
 import { FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
+import {ICreateUsersBody} from "./types.js";
 
 
 async function DoggrRoutes(app: FastifyInstance, _options = {}) {
@@ -22,60 +23,70 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 
 
 
-	app.post<{
-		Body: {
-			name: string,
-			email: string,
-			petType: string,
-		},
-		Reply: {
-			message: string,
-		}
-	}>("/users", async (req, reply: FastifyReply) => {
-		// Fish data out of request (auto converts from json)
-		const {name, email, petType} = req.body;
+	// C
+	app.post<{Body: ICreateUsersBody}>("/users", async (req, reply) => {
+		const { name, email, petType} = req.body;
 
 		try {
-			// Get our manager from the plugin we wrote
 			const newUser = await req.em.create(User, {
 				name,
 				email,
 				petType
 			});
 
-			// This will immediately update the real database.  You can store up several changes and flush only once
-			// NOTE THE AWAIT -- do not forget it or weirdness abounds
 			await req.em.flush();
 
 			console.log("Created new user:", newUser);
 			return reply.send(newUser);
 		} catch (err) {
-			console.log("Failed to create new user: ", err.message);
-			return reply.status(500).send({ message: err.message});
+			console.log("Failed to create new user", err.message);
+			return reply.status(500).send({message: err.message});
 		}
+
+	});
+
+	// R
+	app.search<{Body: { email: string}}>("/users", async (req, reply) => {
+		const {email} = req.body;
+
+		try {
+			const theUser = await req.em.findOne(User, {email});
+			console.log(theUser);
+			reply.send(theUser);
+		} catch (err) {
+			console.error(err);
+			reply.status(500)
+				.send(err);
+		}
+	});
+	// U
+	app.put<{Body: { email: string, name: string, petType: string}}>("/users", async(req, reply) => {
+		const {email, name, petType} = req.body;
+
+		const userToChange = await req.em.findOne(User, {email});
+		userToChange.name = name;
+		userToChange.petType = petType;
+
+		await req.em.flush();
+		console.log(userToChange);
+		reply.send(userToChange);
+
+	});
+
+	// D
+	app.delete<{Body: { email: string }}>("/users", async(req, reply) => {
+		const {email} = req.body;
+
+		// using reference is enough, no need for a fully initialized entity
+		const userToDelete = await req.em.findOne(User, {email});
+
+		await req.em.remove(userToDelete).flush();
+		reply.send();
+
 	});
 
 
-	// We have to use .route() here because we need a non-standard http method, SEARCH
-	app.route<{Body: { email: string}}>(
-		{
-			method: "SEARCH",
-			url: "/users",
 
-			handler: async(req, reply) =>
-			{
-				const { email } = req.body;
-				console.log("Email is: ", email);
-				try {
-					const theUser = await req.em.findOne(User, { email });
-					console.log(theUser);
-					reply.send(theUser);
-				} catch (err) {
-					console.error(err);
-					reply.status(500).send(err);
-				}
-			}
-		});
 }
 
 export default DoggrRoutes;
