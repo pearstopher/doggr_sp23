@@ -10,10 +10,10 @@ import {FastifySearchHttpMethodPlugin} from "./plugins/http_search.js";
 const app: FastifyInstance = Fastify();
 
 await app.register(FastifyMikroOrmPlugin, config);
+await app.register(FastifySearchHttpMethodPlugin);
 
 await app.register(DoggrRoutes);
 
-await app.register(FastifySearchHttpMethodPlugin);
 
 
 
