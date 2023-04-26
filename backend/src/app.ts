@@ -5,7 +5,7 @@ import {FastifyMikroOrmPlugin} from "./plugins/mikro.js";
 import config from "./db/mikro-orm.config.js";
 
 import DoggrRoutes from "./routes.js";
-import {FastifySearchHttpMethodPlugin} from "./plugins/http_search";
+import {FastifySearchHttpMethodPlugin} from "./plugins/http_search.js";
 
 const app: FastifyInstance = Fastify();
 
