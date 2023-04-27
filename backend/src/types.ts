@@ -3,3 +3,7 @@ export type ICreateUsersBody = {
 	email: string,
 	petType: string
 }
+
+export type ICreateMessagesBody = {
+	body: string
+}
