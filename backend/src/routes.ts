@@ -2,7 +2,7 @@ import {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
 import { Match } from "./db/entities/Match.js";
 import {User} from "./db/entities/User.js";
 import {Message} from "./db/entities/Message.js";
-import {ICreateUsersBody} from "./types.js";
+import {ICreateUsersBody, ICreateMessagesBody} from "./types.js";
 
 async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	if (!app) {
@@ -140,8 +140,8 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 
 	// CRUD
 	// C
-	app.post<{Body: ICreateUsersBody}>("/users", async (req, reply) => {
-		const { name, email, petType} = req.body;
+	app.post<{Body: ICreateMessagesBody}>("/messages", async (req, reply) => {
+		const { from, to, body } = req.body;
 
 		try {
 			const newUser = await req.em.create(User, {
