@@ -1,5 +1,6 @@
 // Routes.ts
 import {User} from "./db/entities/User.js";
+import {Match} from "./db/entities/Match.js";
 import { FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
 import {ICreateUsersBody} from "./types.js";
 
@@ -82,6 +83,24 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 
 		await req.em.remove(userToDelete).flush();
 		reply.send();
+
+	});
+
+
+	app.post<{Body: { email: string, matchee_email: string }}>("/match", async (req, reply) => {
+		const { email, matchee_email } = req.body;
+
+		const matchee = await req.em.findOne(User, {email: matchee_email});
+		const owner = await req.em.findOne(User, {email});
+
+		const newMatch = await req.em.create(Match, {
+			owner,
+			matchee
+		});
+
+		await req.em.flush();
+
+		return reply.send(newMatch);
 
 	});
 

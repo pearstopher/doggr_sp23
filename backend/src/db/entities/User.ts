@@ -26,7 +26,7 @@ export class User extends BaseEntity {
 		() => Match,
 		match => match.matchee,
 		{cascade: [Cascade.PERSIST, Cascade.REMOVE]})
-	matched_me!: Collection<Match>;
+	matched_by!: Collection<Match>;
 
 }
 // export const schema = new EntitySchema({

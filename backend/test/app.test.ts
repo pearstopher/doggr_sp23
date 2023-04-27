@@ -5,9 +5,6 @@ import {faker} from "@faker-js/faker";
 import app from '../src/app.js';
 
 
-// Cleanup, runs after ALL this file's tests have finished!
-teardown( () => app.close());
-
 test('requests the "/hello" route', async () => {
 	const response = await app.inject({
 		method: 'GET',
@@ -57,3 +54,9 @@ test('Creating new user', async () => {
 	resPayload.email.should.equal(payload.email);
 	resPayload.petType.should.equal("Dog");
 });
+
+
+
+
+// Cleanup, runs after ALL this file's tests have finished!
+teardown( () => app.close());

@@ -1,4 +1,5 @@
-import {Entity, ManyToOne, Property} from "@mikro-orm/core";
+import {Entity, ManyToOne, Property, Unique} from "@mikro-orm/core";
+import { BaseEntity } from "./BaseEntity.js";
 import {User} from "./User.js";
 
 @Entity()
