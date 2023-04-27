@@ -1,16 +1,23 @@
-import {Entity, ManyToOne, Property, Unique} from "@mikro-orm/core";
+
+import { Entity, Property, Unique, ManyToOne } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.js";
-import {User} from "./User.js";
+import { User } from "./User.js";
+
 
 @Entity()
 export class Match {
 
-    @ManyToOne({ primary: true } )
-    owner!: User;
+	// The person who performed the match/swiped right
+	@ManyToOne({primary: true})
+	owner!: User;
 
-    @ManyToOne( { primary: true })
-    matchee!: User;
+	// The account whose profile was swiped-right-on
+	@ManyToOne({primary: true})
+	matchee!: User;
 
-    @Property()
-    created_at = new Date();
+	@Property()
+	created_at = new Date();
+
 }
+
+

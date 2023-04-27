@@ -2,28 +2,27 @@ import {FastifyInstance} from "fastify";
 import fp from "fastify-plugin";
 
 declare module 'fastify' {
-    interface FastifyInstance {
-        search: <T>(path: string, handler: any) => void
-    }
+	interface FastifyInstance {
+		search: <T>(path: string, handler: any) => void;
+	}
 }
 
-const fastifySearchHttpMethod = async function(fastify: FastifyInstance, options) {
-
+const fastifySearchHttpMethod = async function(app: FastifyInstance, options) {
 	const search = function search<T>(path, handler) {
-		// We have to use .route() here because we need a non-standard http method, SEARCH
-		fastify.route<T>(
+		app.route<T>(
 			{
 				method: "SEARCH",
 				url: path,
-
-				handler,
-			});
+				
+				handler
+			}
+		);
 	};
-
-	// gives us access to `app.db`
-	fastify.decorate("search", search);
+	
+	app.decorate("search", search);
+	
 };
 
 export const FastifySearchHttpMethodPlugin = fp(fastifySearchHttpMethod, {
-	name: "fastify-search-http-method",
+	name: "fastify-search-http-method"
 });
