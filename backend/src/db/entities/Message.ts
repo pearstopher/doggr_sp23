@@ -4,19 +4,22 @@ import { BaseEntity } from "./BaseEntity.js";
 import { User } from "./User.js";
 
 
+// going to extend the base entity unlike match
+// so that I can have a unique ID primary key
 @Entity()
-export class Match {
+export class Message extends BaseEntity {
 
-    // The person who performed the match/swiped right
+    // The person who sent the message
     @ManyToOne({primary: true})
-    owner!: User;
+    from!: User;
 
-    // The account whose profile was swiped-right-on
+    // The person who received the message
     @ManyToOne({primary: true})
-    matchee!: User;
+    to!: User;
 
+    // The body of the message
     @Property()
-    created_at = new Date();
+    body!: string;
 
 }
 
