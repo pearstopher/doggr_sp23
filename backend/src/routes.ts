@@ -107,6 +107,9 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 		}
 	});
 
+
+	// MATCHES
+
 	// CREATE MATCH ROUTE
 	app.post<{Body: { email: string, matchee_email: string }}>("/match", async (req, reply) => {
 		const { email, matchee_email } = req.body;
@@ -143,25 +146,28 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	app.post<{Body: ICreateMessagesBody}>("/messages", async (req, reply) => {
 		const { from, to, body } = req.body;
 
+		const from_user = await req.em.findOne(User, { email:from });
+		const to_user = await req.em.findOne(User, { email:to });
+
 		try {
-			const newUser = await req.em.create(User, {
-				name,
-				email,
-				petType
+			const newMessage = await req.em.create(Message, {
+				from:from_user,
+				to:to_user,
+				body
 			});
 
 			await req.em.flush();
 
-			console.log("Created new user:", newUser);
-			return reply.send(newUser);
+			console.log("Created new message:", newMessage);
+			return reply.send(newMessage);
 		} catch (err) {
-			console.log("Failed to create new user", err.message);
+			console.log("Failed to create new message", err.message);
 			return reply.status(500).send({message: err.message});
 		}
 	});
 
 	//READ
-	app.search("/users", async (req, reply) => {
+	app.search("/messages", async (req, reply) => {
 		const { email } = req.body;
 
 		try {
@@ -175,7 +181,7 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	});
 
 	// UPDATE
-	app.put<{Body: ICreateUsersBody}>("/users", async(req, reply) => {
+	app.put<{Body: ICreateUsersBody}>("/message", async(req, reply) => {
 		const { name, email, petType} = req.body;
 
 		const userToChange = await req.em.findOne(User, {email});
@@ -190,7 +196,7 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	});
 
 	// DELETE
-	app.delete<{ Body: {email}}>("/users", async(req, reply) => {
+	app.delete<{ Body: {email}}>("/messages", async(req, reply) => {
 		const { email } = req.body;
 
 		try {
@@ -205,32 +211,6 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 		}
 	});
 
-	// CREATE MATCH ROUTE
-	app.post<{Body: { email: string, matchee_email: string }}>("/match", async (req, reply) => {
-		const { email, matchee_email } = req.body;
-
-		try {
-			// make sure that the matchee exists & get their user account
-			const matchee = await req.em.findOne(User, { email: matchee_email });
-			// do the same for the matcher/owner
-			const owner = await req.em.findOne(User, { email });
-
-			//create a new match between them
-			const newMatch = await req.em.create(Match, {
-				owner,
-				matchee
-			});
-
-			//persist it to the database
-			await req.em.flush();
-			// send the match back to the user
-			return reply.send(newMatch);
-		} catch (err) {
-			console.error(err);
-			return reply.status(500).send(err);
-		}
-
-	});
 }
 
 export default DoggrRoutes;
