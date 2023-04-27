@@ -9,6 +9,7 @@ import { User } from "./User.js";
 @Entity()
 export class Message {
 
+    // Something to uniquely identify a specific message
     @PrimaryKey()
     id!: number;
 
