@@ -177,7 +177,7 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 
 		try {
 			const user = await req.em.findOne(User, { email: receiver });
-			const messages = await req.em.find(Message, { to:user });
+			const messages = await req.em.find(Message, { receiver:user });
 			console.log(messages);
 			reply.send(messages);
 		} catch (err) {
@@ -191,7 +191,7 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 
 		try {
 			const user = await req.em.findOne(User, { email: sender });
-			const messages = await req.em.find(Message, { from:user });
+			const messages = await req.em.find(Message, { sender:user });
 			console.log(messages);
 			reply.send(messages);
 		} catch (err) {
