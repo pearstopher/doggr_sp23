@@ -43,6 +43,7 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	// CRUD
 	// C
 	app.post<{Body: ICreateUsersBody}>("/users", async (req, reply) => {
+
 		const { name, email, petType} = req.body;
 		
 		try {

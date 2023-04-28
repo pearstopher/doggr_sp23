@@ -36,6 +36,7 @@
     "@mikro-orm/postgresql": "5.7.2",
     "@mikro-orm/reflection": "5.7.2",
     "@mikro-orm/seeder": "5.7.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "fastify": "^4.16.3",
     "fastify-plugin": "^4.5.0"
