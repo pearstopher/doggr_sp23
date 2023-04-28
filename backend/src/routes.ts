@@ -231,6 +231,31 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 		}
 	});
 
+	// delete all
+	app.delete<{ Body: {sender: string}}>("/messages/all", async(req, reply) => {
+		const { sender } = req.body;
+
+		try {
+			// get all the messages
+			const user = await req.em.findOne(User, { email: sender });
+			const messages = await req.em.find(Message, { sender:user });
+
+			//now delete all the messages
+			for (const message of messages) {
+
+				const theMessage = await req.em.findOne(Message, { id:message.id });
+				await req.em.remove(theMessage);
+			}
+			await req.em.flush(); // just flush once right?
+
+			console.log(messages);
+			reply.send(messages);
+		} catch (err) {
+			console.error(err);
+			reply.status(500).send(err);
+		}
+	});
+
 }
 
 export default DoggrRoutes;
