@@ -186,6 +186,20 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 		}
 	});
 
+	app.search("/messages/sent", async (req, reply) => {
+		const { sender } = req.body;
+
+		try {
+			const user = await req.em.findOne(User, { email: sender });
+			const messages = await req.em.find(Message, { from:user });
+			console.log(messages);
+			reply.send(messages);
+		} catch (err) {
+			console.error(err);
+			reply.status(500).send(err);
+		}
+	});
+
 	// UPDATE
 	app.put<{Body: ICreateUsersBody}>("/message", async(req, reply) => {
 		const { name, email, petType} = req.body;
