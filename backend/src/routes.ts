@@ -216,15 +216,15 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	});
 
 	// DELETE
-	app.delete<{ Body: {email}}>("/messages", async(req, reply) => {
-		const { email } = req.body;
+	app.delete<{ Body: {messageId: number}}>("/messages", async(req, reply) => {
+		const { messageId } = req.body;
 
 		try {
-			const theUser = await req.em.findOne(User, { email });
+			const theMessage = await req.em.findOne(Message, { id:messageId });
 
-			await req.em.remove(theUser).flush();
-			console.log(theUser);
-			reply.send(theUser);
+			await req.em.remove(theMessage).flush();
+			console.log(theMessage);
+			reply.send(theMessage);
 		} catch (err) {
 			console.error(err);
 			reply.status(500).send(err);
