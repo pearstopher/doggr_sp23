@@ -10,7 +10,7 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	}
 	
 	app.get('/hello', async (request: FastifyRequest, reply: FastifyReply) => {
-		return 'hello';
+		return 'helio';
 	});
 	
 	app.get("/dbTest", async (request: FastifyRequest, reply: FastifyReply) => {
@@ -140,6 +140,9 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 
 	// MESSAGES
 
+	app.get('/messages', async (request: FastifyRequest, reply: FastifyReply) => {
+		return 'messages';
+	});
 
 	// CRUD
 	// C
