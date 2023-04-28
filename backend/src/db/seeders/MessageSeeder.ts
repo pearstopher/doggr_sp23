@@ -9,40 +9,40 @@ export class MessageSeeder extends Seeder {
 
 		//user 1 is going to send a message to everybody
 		em.create(Message, {
-			from: users[0],
-			to: users[1],
-			body: "This is a message."
+			sender: users[0],
+			receiver: users[1],
+			message: "This is a message."
 		});
 
 		em.create(Message, {
-			from: users[0],
-			to: users[2],
-			body: "This is a message."
+			sender: users[0],
+			receiver: users[2],
+			message: "This is a message."
 		});
 
 		em.create(Message, {
-			from: users[0],
-			to: users[3],
-			body: "This is a message."
+			sender: users[0],
+			receiver: users[3],
+			message: "This is a message."
 		});
 
 		//user 2 is going to send a message to everybody as well
 		em.create(Message, {
-			from: users[1],
-			to: users[0],
-			body: "This is a message."
+			sender: users[1],
+			receiver: users[0],
+			message: "This is a message."
 		});
 
 		em.create(Message, {
-			from: users[1],
-			to: users[2],
-			body: "This is a message."
+			sender: users[1],
+			receiver: users[2],
+			message: "This is a message."
 		});
 
 		em.create(Message, {
-			from: users[1],
-			to: users[3],
-			body: "This is a message."
+			sender: users[1],
+			receiver: users[3],
+			message: "This is a message."
 		});
 
 	}

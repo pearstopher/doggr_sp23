@@ -5,7 +5,7 @@ export type ICreateUsersBody = {
 }
 
 export type ICreateMessagesBody = {
-	from: string,
-	to: string,
-	body: string
+	sender: string,
+	receiver: string,
+	message: string
 }

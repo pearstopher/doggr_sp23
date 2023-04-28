@@ -15,15 +15,15 @@ export class Message {
 
     // The person who sent the message
     @ManyToOne()
-    from!: User;
+    sender!: User;
 
     // The person who received the message
     @ManyToOne()
-    to!: User;
+    receiver!: User;
 
     // The body of the message
     @Property()
-    body!: string;
+    message!: string;
 
 }
 
