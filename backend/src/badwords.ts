@@ -1,4 +1,5 @@
-const badwords = `ahole
+
+const badWordsList = `ahole
 anus
 ash0le
 ash0les
@@ -457,3 +458,4 @@ wop*
 yed
 zabourah`;
 
+export const badWordsArray = badWordsList.split('\n');

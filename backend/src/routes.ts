@@ -3,11 +3,7 @@ import { Match } from "./db/entities/Match.js";
 import {User} from "./db/entities/User.js";
 import {Message} from "./db/entities/Message.js";
 import {ICreateUsersBody, ICreateMessagesBody} from "./types.js";
-
-//trying to read a file
-import { readFileSync  } from 'fs';
-import { fileURLToPath } from 'url';
-import path from 'path';
+import { badWordsArray } from "./badwords.js";
 
 import * as fsPromise from 'fs/promises';
 
@@ -270,24 +266,13 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	app.post<{Body: {message: string}}>("/filter", async (req, reply) => {
 		const { message } = req.body;
 
-		const __filename = fileURLToPath(import.meta.url);
-		const __dirname = path.dirname(__filename);
-
-		//const badWordsList = readFileSync(path.resolve(__dirname, "/plugins/badwords.txt"), 'utf-8');
-		//const badWordsArray = badWordsList.split('\n');
-
-		const file = await fsPromise.open('./plugins/badwords.txt', 'r');
-		for await (const line of file.readLines()) {
-			console.log(line);
-		}
-
 		try {
-			// for (const badWord of badWordsArray) {
-			// 	if (message.toLowerCase().includes(badWord)) {
-			// 		console.log("Message filter: bad words detected.");
-			// 		return reply.send("0");
-			// 	}
-			// }
+			for (const badWord of badWordsArray) {
+				if (message.toLowerCase().includes(badWord)) {
+					console.log("Message filter: bad words detected.");
+					return reply.send("0");
+				}
+			}
 			console.log("Message filter: no bad words detected.");
 			return reply.send("1");
 
