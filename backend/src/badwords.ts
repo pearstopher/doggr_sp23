@@ -458,4 +458,13 @@ wop*
 yed
 zabourah`;
 
-export const badWordsArray = badWordsList.split('\n');
+const badWordsArray = badWordsList.split('\n');
+
+export function containsBadWords(message: string) {
+	for (const badWord of badWordsArray) {
+		if (message.toLowerCase().includes(badWord)) {
+			return true;
+		}
+	}
+	return false;
+}

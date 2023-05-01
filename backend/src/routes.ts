@@ -3,7 +3,7 @@ import { Match } from "./db/entities/Match.js";
 import {User} from "./db/entities/User.js";
 import {Message} from "./db/entities/Message.js";
 import {ICreateUsersBody, ICreateMessagesBody} from "./types.js";
-import { badWordsArray } from "./badwords.js";
+import { containsBadWords } from "./badwords.js";
 
 import * as fsPromise from 'fs/promises';
 
@@ -158,6 +158,10 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 		const from_user = await req.em.findOne(User, { email:sender });
 		const to_user = await req.em.findOne(User, { email:receiver });
 
+		if (containsBadWords(message)) {
+			return reply.status(500).send({message: "You are naughty."});
+		}
+
 		try {
 			const newMessage = await req.em.create(Message, {
 				sender:from_user,
@@ -208,6 +212,10 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	app.put<{Body: {messageId: number, message: string}}>("/messages", async(req, reply) => {
 		const { messageId, message} = req.body;
 
+		if (containsBadWords(message)) {
+			return reply.status(500).send({message: "You are naughty."});
+		}
+
 		const messageToChange = await req.em.findOne(Message, { id: messageId });
 
 		messageToChange.message = message;
@@ -257,28 +265,6 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 		} catch (err) {
 			console.error(err);
 			reply.status(500).send(err);
-		}
-	});
-
-
-
-	//create route to filter messages
-	app.post<{Body: {message: string}}>("/filter", async (req, reply) => {
-		const { message } = req.body;
-
-		try {
-			for (const badWord of badWordsArray) {
-				if (message.toLowerCase().includes(badWord)) {
-					console.log("Message filter: bad words detected.");
-					return reply.send("0");
-				}
-			}
-			console.log("Message filter: no bad words detected.");
-			return reply.send("1");
-
-		} catch (err) {
-			console.log("Failed to create new message", err.message);
-			return reply.status(500).send({message: err.message});
 		}
 	});
 
