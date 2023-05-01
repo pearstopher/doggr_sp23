@@ -14,11 +14,11 @@ export class Message {
     id!: number;
 
     // The person who sent the message
-    @ManyToOne()
+    @ManyToOne({primary: false})
     sender!: User;
 
     // The person who received the message
-    @ManyToOne()
+    @ManyToOne({primary: false})
     receiver!: User;
 
     // The body of the message

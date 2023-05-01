@@ -30,17 +30,18 @@ export class User extends BaseEntity {
 	)
 	matched_by!: Collection<Match>;
 
-	// @OneToMany(
-	// 	() => Message,
-	// 	message => message.from,
-	// 	{cascade: [Cascade.PERSIST, Cascade.REMOVE]}
-	// )
-	// sent_messages!: Collection<Message>;
-	//
-	// @OneToMany(
-	// 	() => Message,
-	// 	message => message.to,
-	// 	{cascade: [Cascade.PERSIST, Cascade.REMOVE]}
-	// )
-	// received_messages!: Collection<Message>;
+	// try to do this again with match
+	@OneToMany(
+		() => Message,
+		message => message.sender,
+		{cascade: [Cascade.PERSIST, Cascade.REMOVE]}
+	)
+	sent_messages!: Collection<Message>;
+
+	@OneToMany(
+		() => Message,
+		message => message.receiver,
+		{cascade: [Cascade.PERSIST, Cascade.REMOVE]}
+	)
+	received_messages!: Collection<Message>;
 }
