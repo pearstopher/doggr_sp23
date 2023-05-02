@@ -100,7 +100,7 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	});
 	
 	// DELETE
-	app.delete<{ Body: {email, password}}>("/users", async(req, reply) => {
+	app.delete<{ Body: {email: string, password: string}}>("/users", async(req, reply) => {
 		const { email, password } = req.body;
 
 		console.log(password);
@@ -259,43 +259,55 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	});
 
 	// DELETE
-	app.delete<{ Body: {messageId: number}}>("/messages", async(req, reply) => {
-		const { messageId } = req.body;
+	app.delete<{ Body: {messageId: number, password: string}}>("/messages", async(req, reply) => {
+		const { messageId, password } = req.body;
 
-		try {
-			const theMessage = await req.em.findOne(Message, { id:messageId });
+		if (password == process.env.ADMIN_PASS) {
 
-			await req.em.remove(theMessage).flush();
-			console.log(theMessage);
-			reply.send(theMessage);
-		} catch (err) {
-			console.error(err);
-			reply.status(500).send(err);
+			try {
+				const theMessage = await req.em.findOne(Message, {id: messageId});
+
+				await req.em.remove(theMessage).flush();
+				console.log(theMessage);
+				reply.send(theMessage);
+			} catch (err) {
+				console.error(err);
+				reply.status(500).send(err);
+			}
+		}
+		else {
+			reply.status(401).send("Invalid password.");
 		}
 	});
 
 	// delete all
-	app.delete<{ Body: {sender: string}}>("/messages/all", async(req, reply) => {
-		const { sender } = req.body;
+	app.delete<{ Body: {sender: string, password: string}}>("/messages/all", async(req, reply) => {
+		const { sender, password} = req.body;
 
-		try {
-			// get all the messages
-			const user = await req.em.findOne(User, { email: sender });
-			const messages = await req.em.find(Message, { sender:user });
+		if (password == process.env.ADMIN_PASS) {
 
-			//now delete all the messages
-			for (const message of messages) {
+			try {
+				// get all the messages
+				const user = await req.em.findOne(User, {email: sender});
+				const messages = await req.em.find(Message, {sender: user});
 
-				const theMessage = await req.em.findOne(Message, { id:message.id });
-				await req.em.remove(theMessage);
+				//now delete all the messages
+				for (const message of messages) {
+
+					const theMessage = await req.em.findOne(Message, {id: message.id});
+					await req.em.remove(theMessage);
+				}
+				await req.em.flush(); // just flush once right?
+
+				console.log(messages);
+				reply.send(messages);
+			} catch (err) {
+				console.error(err);
+				reply.status(500).send(err);
 			}
-			await req.em.flush(); // just flush once right?
-
-			console.log(messages);
-			reply.send(messages);
-		} catch (err) {
-			console.error(err);
-			reply.status(500).send(err);
+		}
+		else {
+			reply.status(401).send("Invalid password.");
 		}
 	});
 
