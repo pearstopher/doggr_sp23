@@ -95,24 +95,30 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	});
 	
 	// DELETE
-	app.delete<{ Body: {email: string, password: string}}>("/users", async(req, reply) => {
-		const { email, password } = req.body;
+	app.delete<{ Body: {email: string, password: string, admin_email: string, admin_pass: string}}>("/users", async(req, reply) => {
+		const { email, password, admin_email, admin_pass } = req.body;
 
-
+		// I don't want to undo my actual work for extra credit
+		// So, to delete a use we still need to check the .env shared password
 		if (password == process.env.ADMIN_PASS) {
+			// now tha we have that out of the way, I'm going to validate the user
+			// and their personal password as well
 			try {
-				//const theUser = await req.em.findOne(User, { email });
+				const theAdmin = await req.em.findOne(User, { email:admin_email });
+				// only admins can delete
+				if (theAdmin.role != "Admin") {
+					console.error("Insufficient privileges.");
+					return reply.status(401).send("Insufficient privileges.");
+				}
 
-				//remove the user from their messages
-				//(can just display "sender deleted their account" or something to receiver)
-				//shouldn't be able to delete somebody else's messages by deleting your account
-				//const messagesToChange = await req.em.find(Message, { sender: theUser });
+				// check the admin password
+				if (theAdmin.password != admin_pass) {
+					console.error("Invalid password.");
+					return reply.status(401).send("Invalid password.");
+				}
 
-				//for (const message of messagesToChange) {
-				//	message.sender = null;
-				//}
-
-				const theUser = await req.em.findOne(User, {email},
+				// get the user to delete
+				const theUserToDelete = await req.em.findOne(User, {email},
 					{
 						populate: [ // Collection names in User.ts
 							"matches",
@@ -122,17 +128,24 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 						]
 					});
 
+				// don't allow anyone to delete admins
+				if (theUserToDelete.role != "User") {
+					console.error("Insufficient privileges.");
+					return reply.status(401).send("Insufficient privileges.");
+				}
 
-				await req.em.remove(theUser).flush();
-				console.log(theUser);
-				reply.send(theUser);
+				// now we can finally delete the user
+				await req.em.remove(theUserToDelete).flush();
+				console.log(theUserToDelete);
+				return reply.send(theUserToDelete);
 			} catch (err) {
 				console.error(err);
-				reply.status(500).send(err);
+				return reply.status(500).send(err);
 			}
 		}
 		else {
-			reply.status(401).send("Invalid password.");
+			console.error("Invalid password.");
+			return reply.status(401).send("Invalid password.");
 		}
 	});
 

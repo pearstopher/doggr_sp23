@@ -11,9 +11,15 @@ export class User extends BaseEntity {
 	
 	@Property()
 	name!: string;
-	
+
 	@Property()
 	petType!: string;
+
+	@Property()
+	role!: "User" | "Admin";
+
+	@Property()
+	password!: string;
 
 	// Note that these DO NOT EXIST in the database itself!
 	@OneToMany(
