@@ -5,6 +5,9 @@ import {Message} from "./db/entities/Message.js";
 import {ICreateUsersBody, ICreateMessagesBody} from "./types.js";
 import { containsBadWords } from "./badwords.js";
 
+console.log(process.env);
+console.log(process.env.ADMIN_PASS);
+
 import * as fsPromise from 'fs/promises';
 
 
@@ -14,7 +17,7 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	}
 	
 	app.get('/hello', async (request: FastifyRequest, reply: FastifyReply) => {
-		return 'helio';
+		return 'hello';
 	});
 	
 	app.get("/dbTest", async (request: FastifyRequest, reply: FastifyReply) => {
@@ -97,41 +100,46 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	});
 	
 	// DELETE
-	app.delete<{ Body: {email}}>("/users", async(req, reply) => {
-		const { email } = req.body;
-		
-		try {
-			//const theUser = await req.em.findOne(User, { email });
+	app.delete<{ Body: {email, password}}>("/users", async(req, reply) => {
+		const { email, password } = req.body;
+
+		console.log(password);
+		console.log(process.env.ADMIN_PASS);
+
+		if (password == process.env.ADMIN_PASS) {
+			try {
+				//const theUser = await req.em.findOne(User, { email });
+
+				//remove the user from their messages
+				//(can just display "sender deleted their account" or something to receiver)
+				//shouldn't be able to delete somebody else's messages by deleting your account
+				//const messagesToChange = await req.em.find(Message, { sender: theUser });
+
+				//for (const message of messagesToChange) {
+				//	message.sender = null;
+				//}
+
+				const theUser = await req.em.findOne(User, {email},
+					{
+						populate: [ // Collection names in User.ts
+							"matches",
+							"matched_by",
+							"sent_messages",
+							"received_messages"
+						]
+					});
 
 
-
-			//remove the user from their messages
-			//(can just display "sender deleted their account" or something to receiver)
-			//shouldn't be able to delete somebody else's messages by deleting your account
-			//const messagesToChange = await req.em.find(Message, { sender: theUser });
-
-			//for (const message of messagesToChange) {
-			//	message.sender = null;
-			//}
-
-			const theUser = await req.em.findOne(User, { email },
-				{
-					populate: [ // Collection names in User.ts
-						"matches",
-						"matched_by",
-						"sent_messages",
-						"received_messages"
-					]
-				});
-
-
-
-			await req.em.remove(theUser).flush();
-			console.log(theUser);
-			reply.send(theUser);
-		} catch (err) {
-			console.error(err);
-			reply.status(500).send(err);
+				await req.em.remove(theUser).flush();
+				console.log(theUser);
+				reply.send(theUser);
+			} catch (err) {
+				console.error(err);
+				reply.status(500).send(err);
+			}
+		}
+		else {
+			reply.status(401).send("Invalid password.");
 		}
 	});
 
