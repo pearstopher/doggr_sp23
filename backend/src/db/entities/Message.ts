@@ -1,5 +1,6 @@
 
 import {Entity, Property, Unique, ManyToOne, PrimaryKey} from "@mikro-orm/core";
+import type { Rel } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.js";
 import { User } from "./User.js";
 
@@ -15,11 +16,11 @@ export class Message {
 
     // The person who sent the message
     @ManyToOne({primary: false})
-    sender!: User;
+    sender!: Rel<User>;
 
     // The person who received the message
     @ManyToOne({primary: false})
-    receiver!: User;
+    receiver!: Rel<User>;
 
     // The body of the message
     @Property()
