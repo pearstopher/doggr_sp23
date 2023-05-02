@@ -5,11 +5,6 @@ import {Message} from "./db/entities/Message.js";
 import {ICreateUsersBody, ICreateMessagesBody} from "./types.js";
 import { containsBadWords } from "./badwords.js";
 
-console.log(process.env);
-console.log(process.env.ADMIN_PASS);
-
-import * as fsPromise from 'fs/promises';
-
 
 async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	if (!app) {
@@ -103,8 +98,6 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 	app.delete<{ Body: {email: string, password: string}}>("/users", async(req, reply) => {
 		const { email, password } = req.body;
 
-		console.log(password);
-		console.log(process.env.ADMIN_PASS);
 
 		if (password == process.env.ADMIN_PASS) {
 			try {
