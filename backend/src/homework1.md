@@ -50,7 +50,7 @@ just like the assignment asks:
 I didn't implement this. It's a cool idea, but it all looked 
 scary. I did the other two bonus parts though! 
 
-## Bonus #2. Add user roles
+## Bonus #2,3. User roles, individual admin passwords
 
 This was great. I added a role and password for the users and
 updated my entities/migration/seeders. The role must be "User" or
@@ -80,7 +80,6 @@ assignment:
 3. "admin_email" is a valid user email with the Admin role.
 4. "admin_pass" is the password for the user with admin_email
 
-## Bonus 3. 
 
 
 
