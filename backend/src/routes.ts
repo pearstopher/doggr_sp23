@@ -101,18 +101,28 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 		const { email } = req.body;
 		
 		try {
-			const theUser = await req.em.findOne(User, { email });
+			//const theUser = await req.em.findOne(User, { email });
 
 
 
 			//remove the user from their messages
 			//(can just display "sender deleted their account" or something to receiver)
 			//shouldn't be able to delete somebody else's messages by deleting your account
-			const messagesToChange = await req.em.find(Message, { sender: theUser });
+			//const messagesToChange = await req.em.find(Message, { sender: theUser });
 
-			for (const message of messagesToChange) {
-				message.sender = null;
-			}
+			//for (const message of messagesToChange) {
+			//	message.sender = null;
+			//}
+
+			const theUser = await req.em.findOne(User, { email },
+				{
+					populate: [ // Collection names in User.ts
+						"matches",
+						"matched_by",
+						"sent_messages",
+						"received_messages"
+					]
+				});
 
 
 
