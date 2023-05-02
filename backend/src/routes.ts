@@ -108,9 +108,13 @@ async function DoggrRoutes(app: FastifyInstance, _options = {}) {
 			//remove the user from their messages
 			//(can just display "sender deleted their account" or something to receiver)
 			//shouldn't be able to delete somebody else's messages by deleting your account
-			const messageToChange = await req.em.find(Message, { sender: theUser });
+			const messagesToChange = await req.em.find(Message, { sender: theUser });
 
-			messageToChange.sender = null;
+			for (const message of messagesToChange) {
+				message.sender = null;
+			}
+
+
 
 			await req.em.remove(theUser).flush();
 			console.log(theUser);
