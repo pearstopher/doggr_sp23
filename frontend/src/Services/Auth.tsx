@@ -80,8 +80,7 @@ export const AuthProvider = ({ children }: any) => {
 				userId,
 				handleLogin,
 				handleLogout,
-			}}
-		>
+			}}>
 			{children}
 		</AuthContext.Provider>
 	);
@@ -94,7 +93,7 @@ export const useAuth = () => {
 function getTokenFromStorage() {
 	const tokenString = localStorage.getItem("token");
 	console.log(tokenString);
-	if ( typeof tokenString === 'undefined' || tokenString === null) {
+	if (typeof tokenString === "undefined" || tokenString === null) {
 		console.log("No token found");
 		return null;
 	}
@@ -105,7 +104,7 @@ function getTokenFromStorage() {
 export async function getLoginTokenFromServer(email, password) {
 	console.log("In get login token from server with ", email, password);
 
-	const login_result = await httpClient.post("/login", { email, password });
+	const login_result = await httpClient.post("http://localhost:8080/login", { email, password });
 	return login_result.data.token;
 }
 
