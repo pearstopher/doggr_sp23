@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 
 export const Message = () => {
 	const [currentProfile, setCurrentProfile] = useState<ProfileType>();
+	const [messageText, setMessageText] = useState("Message Text");
 
 	const auth = useAuth();
 	const { sender, receiver } = useParams();
@@ -30,7 +31,7 @@ export const Message = () => {
 	const messageSent = () => {};
 
 	const onMessageButtonClick = () => {
-		const message = "sample message string";
+		const message = messageText;
 		MessageService.send(auth.userId, currentProfile.id, message)
 			.then(messageSent)
 			.catch((err) => {
@@ -40,7 +41,12 @@ export const Message = () => {
 	};
 
 	const profile = (
-		<MessageProfile {...currentProfile} onMessageButtonClick={onMessageButtonClick} />
+		<MessageProfile
+			{...currentProfile}
+			messageText={messageText}
+			setMessageText={setMessageText}
+			onMessageButtonClick={onMessageButtonClick}
+		/>
 	);
 
 	return <>{profile}</>;
