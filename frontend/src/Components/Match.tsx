@@ -1,4 +1,3 @@
-
 import { Profile } from "@/Components/Profile.tsx";
 import { ProfileType } from "@/DoggrTypes.ts";
 import { useAuth } from "@/Services/Auth.tsx";
@@ -15,7 +14,7 @@ export const Match = () => {
 	const fetchProfile = () => {
 		getNextProfileFromServer()
 			.then((response) => setCurrentProfile(response))
-			.catch( (err) => console.log("Error in fetch profile", err));
+			.catch((err) => console.log("Error in fetch profile", err));
 	};
 
 	useEffect(() => {
@@ -25,7 +24,7 @@ export const Match = () => {
 	const onLikeButtonClick = () => {
 		MatchService.send(auth.userId, currentProfile.id)
 			.then(fetchProfile)
-			.catch(err => {
+			.catch((err) => {
 				console.error(err);
 				fetchProfile();
 			});
@@ -34,7 +33,16 @@ export const Match = () => {
 	const onPassButtonClick = () => {
 		PassService.send(auth.userId, currentProfile.id)
 			.then(fetchProfile)
-			.catch(err => {
+			.catch((err) => {
+				console.error(err);
+				fetchProfile();
+			});
+	};
+
+	const onMessageButtonClick = () => {
+		MessageService.send(auth.userId, currentProfile.id)
+			.then(fetchProfile)
+			.catch((err) => {
 				console.error(err);
 				fetchProfile();
 			});
@@ -48,9 +56,5 @@ export const Match = () => {
 		/>
 	);
 
-	return (
-		<>
-			{profile}
-		</>
-	);
+	return <>{profile}</>;
 };
