@@ -1,15 +1,13 @@
 import { Home } from "@/Components/HomePage.tsx";
 import { Match } from "@/Components/Match.tsx";
+import { Login } from "@/Components/Login.tsx";
 import { AuthProvider } from "@/Services/Auth.tsx";
 import { createContext, useContext } from "react";
 import { Link, Route, Routes, Router, BrowserRouter } from "react-router-dom";
 import "@css/App.css";
 
-
-
 // This is our first React "Component"
 export function App() {
-
 	return (
 		<BrowserRouter>
 			<AuthProvider>
@@ -27,7 +25,6 @@ export function App() {
 						<Route path="/match" element={<Match />} />
 						<Route path="/login" element={<Login />} />
 					</Routes>
-
 				</div>
 			</AuthProvider>
 		</BrowserRouter>

@@ -8,18 +8,16 @@ export function Login() {
 	const [password, setPassword] = useState("");
 	const [submitFailed, setSubmitFailed] = useState(false);
 
-	const onSubmitLogin = useCallback(
-		async() => {
-			if(context) {
-				const loginSuccess = await context.handleLogin(email, password);
-				if (!loginSuccess) {
-					setSubmitFailed(true);
-				}
-			} else {
-				console.error("We have no auth context WARNING WARNING");
+	const onSubmitLogin = useCallback(async () => {
+		if (context) {
+			const loginSuccess = await context.handleLogin(email, password);
+			if (!loginSuccess) {
+				setSubmitFailed(true);
 			}
-		}, [email, password, context, setSubmitFailed]
-	)
+		} else {
+			console.error("We have no auth context WARNING WARNING");
+		}
+	}, [email, password, context, setSubmitFailed]);
 
 	return (
 		<div>
@@ -51,9 +49,6 @@ export function Login() {
 			<div>
 				<button onClick={onSubmitLogin}>Submit</button>
 			</div>
-
-
-
 		</div>
 	);
 }
