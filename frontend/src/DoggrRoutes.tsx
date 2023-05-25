@@ -54,7 +54,7 @@ export function DoggrRouter() {
 					}
 				/>
 				<Route
-					path="/message"
+					path="/message/:sender/:receiver"
 					element={
 						<ProtectedRoute>
 							<Message />

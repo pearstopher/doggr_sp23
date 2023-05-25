@@ -6,11 +6,15 @@ import { MatchService } from "@/Services/MatchService.tsx";
 import { PassService } from "@/Services/PassService.tsx";
 import { MessageService } from "@/Services/MessageService.tsx";
 import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export const Message = () => {
 	const [currentProfile, setCurrentProfile] = useState<ProfileType>();
 
 	const auth = useAuth();
+	const { sender, receiver } = useParams();
+	console.log(sender);
+	console.log(receiver);
 
 	const fetchProfile = () => {
 		getNextProfileFromServer()
