@@ -6,6 +6,7 @@ import { MatchService } from "@/Services/MatchService.tsx";
 import { PassService } from "@/Services/PassService.tsx";
 import { MessageService } from "@/Services/MessageService.tsx";
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Match = () => {
 	const [currentProfile, setCurrentProfile] = useState<ProfileType>();
@@ -41,13 +42,16 @@ export const Match = () => {
 	};
 
 	const onMessageButtonClick = () => {
-		const message = "sample message string";
-		MessageService.send(auth.userId, currentProfile.id, message)
-			.then(fetchProfile)
-			.catch((err) => {
-				console.error(err);
-				fetchProfile();
-			});
+		// 	const message = "sample message string";
+		// 	MessageService.send(auth.userId, currentProfile.id, message)
+		// 		.then(fetchProfile)
+		// 		.catch((err) => {
+		// 			console.error(err);
+		// 			fetchProfile();
+		// 		});
+	};
+	const senderId = () => {
+		return auth.userId;
 	};
 
 	const profile = (
@@ -55,7 +59,7 @@ export const Match = () => {
 			{...currentProfile}
 			onLikeButtonClick={onLikeButtonClick}
 			onPassButtonClick={onPassButtonClick}
-			onMessageButtonClick={onMessageButtonClick}
+			sender={senderId}
 		/>
 	);
 

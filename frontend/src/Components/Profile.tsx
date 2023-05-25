@@ -1,16 +1,16 @@
 import { ProfileType } from "@/DoggrTypes.ts";
 import { useEffect } from "react";
 import "@css/DoggrStyles.css";
+import { Link } from "react-router-dom";
 
 export type ProfileProps = ProfileType & {
 	onLikeButtonClick: () => void;
 	onPassButtonClick: () => void;
-	onMessageButtonClick: () => void;
+	sender: () => number;
 };
 
 export function Profile(props: ProfileProps) {
-	const { imgUri, name, petType, onLikeButtonClick, onPassButtonClick, onMessageButtonClick } =
-		props;
+	const { imgUri, name, petType, id, onLikeButtonClick, onPassButtonClick, sender } = props;
 
 	const minioUrl = "http://localhost:9000/doggr/" + imgUri;
 
@@ -26,9 +26,7 @@ export function Profile(props: ProfileProps) {
 				<button className="btn btn-circle" onClick={onLikeButtonClick}>
 					Like
 				</button>
-				<button className="btn btn-circle" onClick={onMessageButtonClick}>
-					Message
-				</button>
+				<Link to={`/message/${sender()}/${id}`}>Message User</Link>
 			</div>
 		</div>
 	);
