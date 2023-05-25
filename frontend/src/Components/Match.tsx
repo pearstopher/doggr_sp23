@@ -55,6 +55,7 @@ export const Match = () => {
 			{...currentProfile}
 			onLikeButtonClick={onLikeButtonClick}
 			onPassButtonClick={onPassButtonClick}
+			onMessageButtonClick={onMessageButtonClick}
 		/>
 	);
 
