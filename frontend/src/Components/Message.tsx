@@ -1,4 +1,5 @@
 import { Profile } from "@/Components/Profile.tsx";
+import { MessageProfile } from "@/Components/MessageProfile.tsx";
 import { ProfileType } from "@/DoggrTypes.ts";
 import { useAuth } from "@/Services/Auth.tsx";
 import { getNextProfileFromServer } from "@/Services/HttpClient.tsx";
@@ -26,41 +27,20 @@ export const Message = () => {
 		fetchProfile();
 	}, []);
 
-	const onLikeButtonClick = () => {
-		MatchService.send(auth.userId, currentProfile.id)
-			.then(fetchProfile)
-			.catch((err) => {
-				console.error(err);
-				fetchProfile();
-			});
-	};
-
-	const onPassButtonClick = () => {
-		PassService.send(auth.userId, currentProfile.id)
-			.then(fetchProfile)
-			.catch((err) => {
-				console.error(err);
-				fetchProfile();
-			});
-	};
+	const messageSent = () => {};
 
 	const onMessageButtonClick = () => {
 		const message = "sample message string";
 		MessageService.send(auth.userId, currentProfile.id, message)
-			.then(fetchProfile)
+			.then(messageSent)
 			.catch((err) => {
 				console.error(err);
-				fetchProfile();
+				messageSent();
 			});
 	};
 
 	const profile = (
-		<Profile
-			{...currentProfile}
-			onLikeButtonClick={onLikeButtonClick}
-			onPassButtonClick={onPassButtonClick}
-			onMessageButtonClick={onMessageButtonClick}
-		/>
+		<MessageProfile {...currentProfile} onMessageButtonClick={onMessageButtonClick} />
 	);
 
 	return <>{profile}</>;
