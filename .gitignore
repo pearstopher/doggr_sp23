@@ -2,4 +2,5 @@
 .idea/
 .code/
 temp/
+node_modules/
 
