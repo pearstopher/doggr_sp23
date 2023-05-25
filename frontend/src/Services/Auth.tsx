@@ -19,7 +19,6 @@ const updateAxios = async (token: string) => {
 				Authorization: `Bearer ${token}`,
 				Accept: "application/json",
 			};
-
 			return config;
 		},
 		(error) => {
@@ -67,7 +66,6 @@ export const AuthProvider = ({ children }: any) => {
 	};
 
 	const saveToken = (thetoken) => {
-		console.log(thetoken);
 		setToken(thetoken);
 		setUserId(getUserIdFromToken(thetoken));
 		localStorage.setItem("token", JSON.stringify(thetoken));
@@ -92,13 +90,13 @@ export const useAuth = () => {
 
 function getTokenFromStorage() {
 	const tokenString = localStorage.getItem("token");
-	console.log(tokenString);
 	if (typeof tokenString === "undefined" || tokenString === null) {
 		console.log("No token found");
 		return null;
 	}
 	console.log("Token found: ", tokenString);
-	return tokenString;
+	//token string has quotes in it, I can get rid of them here
+	return tokenString.substring(1, tokenString.length - 1);
 }
 
 export async function getLoginTokenFromServer(email, password) {
