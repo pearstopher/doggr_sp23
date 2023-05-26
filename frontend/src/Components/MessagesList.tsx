@@ -75,16 +75,23 @@ export const MessagesList = () => {
 			) : null}
 			<h2>Sent Messages:</h2>
 			{sentMessages ? (
-				<ul>
+				<ul className={"grid grid-cols-2 space-y-4 space-x-4"}>
+					<span className={"hidden"}></span>{" "}
+					{/* the spacing isn't getting applied to the first item */}
 					{sentMessages.map((message, i) => (
-						<li key={message.id}>
+						<li className={"flex flex-wrap space-x-4 space-y-4 bg-blue-900"} key={message.id}>
 							<img
-								className={"rounded w-128 h-128"}
+								className={"rounded w-1/8"}
 								src={minioUrl + message.imgUri}
 								alt="Profile of pet"
 							/>
-							{message.name} - {message.message}{" "}
-							<Link to={`/message/${auth.userId}/${message.receiver}`}>Message</Link>
+							<span className={"w-7/8 text-2xl"}>{message.name}</span>
+							<div className={"w-full"}> {message.message}</div>
+							<Link
+								className={"w-full mb-10 text-right p-2"}
+								to={`/message/${auth.userId}/${message.receiver}`}>
+								Reply
+							</Link>
 						</li>
 					))}
 				</ul>

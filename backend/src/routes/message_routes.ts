@@ -94,7 +94,7 @@ export function MessageRoutesInit(app: FastifyInstance) {
 
 		try {
 			const senderEntity = await req.em.getReference(User, sender_id);
-			const messages = await req.em.find(Message, { receiver: senderEntity });
+			const messages = await req.em.find(Message, { sender: senderEntity });
 			const urlMessages = [];
 			for (const [i, value] of messages.entries()) {
 				const receiverEntity = await req.em.findOne(User, value.receiver.id);
