@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/Services/Auth.tsx";
+import { Link, Route, Routes } from "react-router-dom";
 import { MessageService } from "@/Services/MessageService.tsx";
 import { MessageListService } from "@/Services/MessageListService.tsx";
 
@@ -53,6 +54,7 @@ export const MessagesList = () => {
 							<li key={receivedMessage.id}>
 								{" "}
 								{receivedMessage.sender} - {receivedMessage.message}{" "}
+								<Link to={`/message/${auth.userId}/${receivedMessage.sender}`}>Message</Link>
 							</li>
 						)
 					)}
@@ -66,6 +68,7 @@ export const MessagesList = () => {
 						<li key={sentMessage.id}>
 							{" "}
 							{sentMessage.receiver} - {sentMessage.message}{" "}
+							<Link to={`/message/${auth.userId}/${sentMessage.receiver}`}>Message</Link>
 						</li>
 					))}
 				</ul>
