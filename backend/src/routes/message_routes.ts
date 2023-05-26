@@ -94,8 +94,22 @@ export function MessageRoutesInit(app: FastifyInstance) {
 
 		try {
 			const senderEntity = await req.em.getReference(User, sender_id);
-			const messages = await req.em.find(Message, { sender: senderEntity });
-			return reply.send(messages);
+			const messages = await req.em.find(Message, { receiver: senderEntity });
+			const urlMessages = [];
+			for (const [i, value] of messages.entries()) {
+				const receiverEntity = await req.em.findOne(User, value.receiver.id);
+
+				const message = {
+					id: value.id,
+					receiver: value.receiver.id,
+					message: value.message,
+					imgUri: receiverEntity.imgUri,
+					name: receiverEntity.name,
+				};
+				urlMessages[i] = message;
+			}
+
+			return reply.send(urlMessages);
 		} catch (err) {
 			return reply.status(500).send({ message: err.message });
 		}

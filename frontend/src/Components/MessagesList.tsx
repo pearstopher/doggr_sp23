@@ -69,19 +69,17 @@ export const MessagesList = () => {
 			<h2>Sent Messages:</h2>
 			{sentMessages ? (
 				<ul>
-					{sentMessages.map(
-						(sentMessage: { receiver: string; message: string; id: string; imgUri: string }) => (
-							<li key={sentMessage.id}>
-								<img
-									className="rounded w-128 h-128"
-									src={minioUrl + sentMessage.imgUri}
-									alt="Profile of pet"
-								/>{" "}
-								{sentMessage.receiver} - {sentMessage.message}{" "}
-								<Link to={`/message/${auth.userId}/${sentMessage.receiver}`}>Reply</Link>
-							</li>
-						)
-					)}
+					{sentMessages.map((message, i) => (
+						<li key={message.id}>
+							<img
+								className={"rounded w-128 h-128"}
+								src={minioUrl + message.imgUri}
+								alt="Profile of pet"
+							/>
+							{message.name} - {message.message}{" "}
+							<Link to={`/message/${auth.userId}/${message.receiver}`}>Message</Link>
+						</li>
+					))}
 				</ul>
 			) : null}
 		</div>
