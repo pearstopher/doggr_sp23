@@ -49,7 +49,10 @@ export const MessagesList = () => {
 	}, []);
 
 	return (
-		<div className={"flex flex-col items-center rounded-box bg-slate-700 w-4/5 mx-auto"}>
+		<div
+			className={
+				"flex flex-col items-center rounded-box bg-slate-700 w-4/5 mx-auto overflow-y-scroll h-5/6"
+			}>
 			<h2>Received Messages:</h2>
 			{receivedMessages ? (
 				<ul className={"grid grid-cols-2 space-y-4 space-x-4"}>
