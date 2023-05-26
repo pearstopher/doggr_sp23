@@ -68,7 +68,7 @@ export const MessagesList = () => {
 						<li key={sentMessage.id}>
 							{" "}
 							{sentMessage.receiver} - {sentMessage.message}{" "}
-							<Link to={`/message/${auth.userId}/${sentMessage.receiver}`}>Message</Link>
+							<Link to={`/message/${auth.userId}/${sentMessage.receiver}`}>Reply</Link>
 						</li>
 					))}
 				</ul>
