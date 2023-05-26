@@ -66,35 +66,24 @@ export function MessageRoutesInit(app: FastifyInstance) {
 	app.post<{ Body: { receiver_id: number } }>("/messages/received", async (req, reply) => {
 		const { receiver_id } = req.body;
 
-		class urlMessage extends Message {
-			imgUri: string;
-		}
-
 		try {
 			const receiverEntity = await req.em.getReference(User, receiver_id);
 			const messages = await req.em.find(Message, { receiver: receiverEntity });
-			//const thumbMessages = [];
+			const urlMessages = [];
 			for (const [i, value] of messages.entries()) {
-				//thumbMessages[i] = value;
-				//console.log(value);
 				const senderEntity = await req.em.findOne(User, value.sender.id);
-				//thumbMessages[i].push({ sender_thumb: senderEntity.imgUri });
-				//console.log("%d: %s", i, thumbMessages[i]);
-				//console.log(thumbMessages);
-				//console.log(senderEntity);
-				const thumb = { imgUri: senderEntity.imgUri };
-				//console.log(thumb);
-				//thumbMessages["Message"] = { ...value, ...thumb };
-				messages[i] = { ...value, ...thumb };
-				//console.log(thumbMessages[i]);
-				//messages[i].imgUri = senderEntity.imgUri;
-				//console.log[key](messages[i]);
-				//console.log(value);
-			}
-			//console.log(thumbMessages);
-			//console.log(messages);
 
-			return reply.send(messages);
+				const message = {
+					id: value.id,
+					sender: value.sender.id,
+					message: value.message,
+					imgUri: senderEntity.imgUri,
+					name: senderEntity.name,
+				};
+				urlMessages[i] = message;
+			}
+
+			return reply.send(urlMessages);
 		} catch (err) {
 			return reply.status(500).send({ message: err.message });
 		}

@@ -53,29 +53,15 @@ export const MessagesList = () => {
 			<h2>Received Messages:</h2>
 			{receivedMessages ? (
 				<ul>
-					{/*{receivedMessages.map(*/}
-					{/*	(receivedMessage: { sender: string; message: string; id: string; imgUri: string }) => (*/}
-					{/*		<li key={receivedMessage.id}>*/}
-					{/*			<img*/}
-					{/*				className="rounded w-128 h-128"*/}
-					{/*				src={minioUrl + receivedMessage.imgUri}*/}
-					{/*				alt="Profile of pet"*/}
-					{/*			/>{" "}*/}
-					{/*			{receivedMessage.sender} - {receivedMessage.message}{" "}*/}
-					{/*			<Link to={`/message/${auth.userId}/${receivedMessage.sender}`}>Message</Link>*/}
-					{/*		</li>*/}
-					{/*	)*/}
-					{/*)}*/}
-					{/*JSON.stringify(receivedMessages)*/}
-					{receivedMessages.map((object, i) => (
-						<li key={object.id}>
+					{receivedMessages.map((message, i) => (
+						<li key={message.id}>
 							<img
 								className={"rounded w-128 h-128"}
-								src={minioUrl + object.imgUri}
+								src={minioUrl + message.imgUri}
 								alt="Profile of pet"
 							/>
-							{object.sender.name} - {object.message}{" "}
-							<Link to={`/message/${auth.userId}/${object.sender.id}`}>Message</Link>
+							{message.name} - {message.message}{" "}
+							<Link to={`/message/${auth.userId}/${message.sender}`}>Message</Link>
 						</li>
 					))}
 				</ul>
