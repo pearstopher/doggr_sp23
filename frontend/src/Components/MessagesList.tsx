@@ -49,19 +49,22 @@ export const MessagesList = () => {
 	}, []);
 
 	return (
-		<div>
+		<div className={"flex flex-col items-center rounded-box bg-slate-700 w-4/5 mx-auto"}>
 			<h2>Received Messages:</h2>
 			{receivedMessages ? (
-				<ul>
+				<ul className={"space-y-4"}>
 					{receivedMessages.map((message, i) => (
-						<li key={message.id}>
+						<li className={"flex flex-wrap space-x-4 space-y-4 bg-blue-900"} key={message.id}>
 							<img
-								className={"rounded w-128 h-128"}
+								className={"rounded w-1/8"}
 								src={minioUrl + message.imgUri}
 								alt="Profile of pet"
 							/>
-							{message.name} - {message.message}{" "}
-							<Link to={`/message/${auth.userId}/${message.sender}`}>Message</Link>
+							<span className={"w-7/8 text-2xl"}>{message.name}</span>
+							<div className={"w-full"}> {message.message}</div>
+							<Link className={"w-full mb-10"} to={`/message/${auth.userId}/${message.sender}`}>
+								Message
+							</Link>
 						</li>
 					))}
 				</ul>
