@@ -66,10 +66,14 @@ export function MessageRoutesInit(app: FastifyInstance) {
 	app.post<{ Body: { receiver_id: number } }>("/messages/received", async (req, reply) => {
 		const { receiver_id } = req.body;
 
+		class urlMessage extends Message {
+			imgUri: string;
+		}
+
 		try {
 			const receiverEntity = await req.em.getReference(User, receiver_id);
 			const messages = await req.em.find(Message, { receiver: receiverEntity });
-			const thumbMessages = [];
+			//const thumbMessages = [];
 			for (const [i, value] of messages.entries()) {
 				//thumbMessages[i] = value;
 				//console.log(value);
@@ -79,9 +83,16 @@ export function MessageRoutesInit(app: FastifyInstance) {
 				//console.log(thumbMessages);
 				//console.log(senderEntity);
 				const thumb = { imgUri: senderEntity.imgUri };
-				thumbMessages[i] = { ...value, ...thumb };
-				console.log(thumbMessages[i]);
+				//console.log(thumb);
+				//thumbMessages["Message"] = { ...value, ...thumb };
+				messages[i] = { ...value, ...thumb };
+				//console.log(thumbMessages[i]);
+				//messages[i].imgUri = senderEntity.imgUri;
+				//console.log[key](messages[i]);
+				//console.log(value);
 			}
+			//console.log(thumbMessages);
+			//console.log(messages);
 
 			return reply.send(messages);
 		} catch (err) {

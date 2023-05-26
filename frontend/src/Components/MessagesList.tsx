@@ -13,10 +13,14 @@ export const MessagesList = () => {
 	const [receivedMessages, setReceivedMessages] = useState([]);
 	const auth = useAuth();
 
+	const minioUrl = "http://localhost:9000/doggr/";
+
 	const displaySentMessages = (messages) => {
+		console.log(messages);
 		setSentMessages(messages.data);
 	};
 	const displayReceivedMessages = (messages) => {
+		console.log(messages);
 		setReceivedMessages(messages.data);
 	};
 
@@ -49,28 +53,49 @@ export const MessagesList = () => {
 			<h2>Received Messages:</h2>
 			{receivedMessages ? (
 				<ul>
-					{receivedMessages.map(
-						(receivedMessage: { sender: string; message: string; id: string }) => (
-							<li key={receivedMessage.id}>
-								{" "}
-								{receivedMessage.sender} - {receivedMessage.message}{" "}
-								<Link to={`/message/${auth.userId}/${receivedMessage.sender}`}>Message</Link>
-							</li>
-						)
-					)}
+					{/*{receivedMessages.map(*/}
+					{/*	(receivedMessage: { sender: string; message: string; id: string; imgUri: string }) => (*/}
+					{/*		<li key={receivedMessage.id}>*/}
+					{/*			<img*/}
+					{/*				className="rounded w-128 h-128"*/}
+					{/*				src={minioUrl + receivedMessage.imgUri}*/}
+					{/*				alt="Profile of pet"*/}
+					{/*			/>{" "}*/}
+					{/*			{receivedMessage.sender} - {receivedMessage.message}{" "}*/}
+					{/*			<Link to={`/message/${auth.userId}/${receivedMessage.sender}`}>Message</Link>*/}
+					{/*		</li>*/}
+					{/*	)*/}
+					{/*)}*/}
+					{/*JSON.stringify(receivedMessages)*/}
+					{receivedMessages.map((object, i) => (
+						<li key={object.id}>
+							<img
+								className={"rounded w-128 h-128"}
+								src={minioUrl + object.imgUri}
+								alt="Profile of pet"
+							/>
+							{object.sender.name} - {object.message}{" "}
+							<Link to={`/message/${auth.userId}/${object.sender.id}`}>Message</Link>
+						</li>
+					))}
 				</ul>
 			) : null}
-
 			<h2>Sent Messages:</h2>
 			{sentMessages ? (
 				<ul>
-					{sentMessages.map((sentMessage: { receiver: string; message: string; id: string }) => (
-						<li key={sentMessage.id}>
-							{" "}
-							{sentMessage.receiver} - {sentMessage.message}{" "}
-							<Link to={`/message/${auth.userId}/${sentMessage.receiver}`}>Reply</Link>
-						</li>
-					))}
+					{sentMessages.map(
+						(sentMessage: { receiver: string; message: string; id: string; imgUri: string }) => (
+							<li key={sentMessage.id}>
+								<img
+									className="rounded w-128 h-128"
+									src={minioUrl + sentMessage.imgUri}
+									alt="Profile of pet"
+								/>{" "}
+								{sentMessage.receiver} - {sentMessage.message}{" "}
+								<Link to={`/message/${auth.userId}/${sentMessage.receiver}`}>Reply</Link>
+							</li>
+						)
+					)}
 				</ul>
 			) : null}
 		</div>
