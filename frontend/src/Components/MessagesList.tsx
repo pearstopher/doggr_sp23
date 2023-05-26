@@ -52,7 +52,9 @@ export const MessagesList = () => {
 		<div className={"flex flex-col items-center rounded-box bg-slate-700 w-4/5 mx-auto"}>
 			<h2>Received Messages:</h2>
 			{receivedMessages ? (
-				<ul className={"space-y-4"}>
+				<ul className={"grid grid-cols-2 space-y-4 space-x-4"}>
+					<span className={"hidden"}></span>{" "}
+					{/* the spacing isn't getting applied to the first item */}
 					{receivedMessages.map((message, i) => (
 						<li className={"flex flex-wrap space-x-4 space-y-4 bg-blue-900"} key={message.id}>
 							<img
@@ -62,8 +64,10 @@ export const MessagesList = () => {
 							/>
 							<span className={"w-7/8 text-2xl"}>{message.name}</span>
 							<div className={"w-full"}> {message.message}</div>
-							<Link className={"w-full mb-10"} to={`/message/${auth.userId}/${message.sender}`}>
-								Message
+							<Link
+								className={"w-full mb-10 text-right p-2"}
+								to={`/message/${auth.userId}/${message.sender}`}>
+								Reply
 							</Link>
 						</li>
 					))}
