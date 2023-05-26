@@ -4,6 +4,7 @@ import { Login } from "@/Components/Login.tsx";
 import { Logout } from "@/Components/Logout.tsx";
 import { Match } from "@/Components/Match.tsx";
 import { Message } from "@/Components/Message.tsx";
+import { MessagesList } from "@/Components/MessagesList.tsx";
 import { ProtectedRoute } from "@/Components/ProtectedRoute.tsx";
 import { useAuth } from "@/Services/Auth.tsx";
 import { Link, Route, Routes } from "react-router-dom";
@@ -23,6 +24,9 @@ export function DoggrRouter() {
 							</li>
 							<li>
 								<Link to="/match"> Match</Link>
+							</li>{" "}
+							<li>
+								<Link to="/messages"> Messages</Link>
 							</li>
 							{auth?.token != null ? (
 								<li>
@@ -58,6 +62,14 @@ export function DoggrRouter() {
 					element={
 						<ProtectedRoute>
 							<Message />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/messages"
+					element={
+						<ProtectedRoute>
+							<MessagesList />
 						</ProtectedRoute>
 					}
 				/>

@@ -63,7 +63,7 @@ export function MessageRoutesInit(app: FastifyInstance) {
 		}
 	});
 
-	app.search<{ Body: { receiver_id: number } }>("/messages/received", async (req, reply) => {
+	app.post<{ Body: { receiver_id: number } }>("/messages/received", async (req, reply) => {
 		const { receiver_id } = req.body;
 
 		try {
@@ -75,7 +75,7 @@ export function MessageRoutesInit(app: FastifyInstance) {
 		}
 	});
 
-	app.search<{ Body: { sender_id: number } }>("/messages/sent", async (req, reply) => {
+	app.post<{ Body: { sender_id: number } }>("/messages/sent", async (req, reply) => {
 		const { sender_id } = req.body;
 
 		try {
