@@ -45,11 +45,25 @@ export const MessagesList = () => {
 
 	return (
 		<div>
+			<h2>Received Messages:</h2>
+			{receivedMessages ? (
+				<ul>
+					{receivedMessages.map(
+						(receivedMessage: { sender: string; message: string; id: string }) => (
+							<li key={receivedMessage.id}>
+								{" "}
+								{receivedMessage.sender} - {receivedMessage.message}{" "}
+							</li>
+						)
+					)}
+				</ul>
+			) : null}
+
 			<h2>Sent Messages:</h2>
 			{sentMessages ? (
 				<ul>
-					{sentMessages.map((sentMessage: { receiver: string; message: string }) => (
-						<li key={sentMessage.receiver}>
+					{sentMessages.map((sentMessage: { receiver: string; message: string; id: string }) => (
+						<li key={sentMessage.id}>
 							{" "}
 							{sentMessage.receiver} - {sentMessage.message}{" "}
 						</li>
