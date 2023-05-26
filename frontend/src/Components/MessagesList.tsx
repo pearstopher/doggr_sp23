@@ -8,26 +8,28 @@ import { MessageListService } from "@/Services/MessageListService.tsx";
 // 2) Make the actual request to backend and store result
 // 3) Show the list of users formatted nicely in our webpage
 export const MessagesList = () => {
-	const [users, setUsers] = useState([]);
+	const [sentMessages, setSentMessages] = useState([]);
+	const [receivedMessages, setReceivedMessages] = useState([]);
 	const auth = useAuth();
 
-	const displayMessages = (messages) => {
-		console.log(messages);
+	const displaySentMessages = (messages) => {
+		setSentMessages(messages.data);
+	};
+	const displayReceivedMessages = (messages) => {
+		setReceivedMessages(messages.data);
 	};
 
 	const getMessageList = () => {
 		MessageListService.sent(auth.userId)
-			.then(displayMessages)
+			.then(displaySentMessages)
 			.catch((err) => {
 				console.error(err);
-				displayMessages(err);
 			});
 
 		MessageListService.received(auth.userId)
-			.then(displayMessages)
+			.then(displayReceivedMessages)
 			.catch((err) => {
 				console.error(err);
-				displayMessages(err);
 			});
 	};
 
@@ -43,13 +45,13 @@ export const MessagesList = () => {
 
 	return (
 		<div>
-			<h2>Users:</h2>
-			{users ? (
+			<h2>Sent Messages:</h2>
+			{sentMessages ? (
 				<ul>
-					{users.map((user: { email: string; name: string }) => (
-						<li key={user.email}>
+					{sentMessages.map((sentMessage: { receiver: string; message: string }) => (
+						<li key={sentMessage.receiver}>
 							{" "}
-							{user.name} - {user.email}{" "}
+							{sentMessage.receiver} - {sentMessage.message}{" "}
 						</li>
 					))}
 				</ul>
