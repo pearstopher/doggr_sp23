@@ -16,7 +16,7 @@ export function Profile(props: ProfileProps) {
 
 	return (
 		<div className={"flex flex-col items-center rounded-box bg-slate-700 w-4/5 mx-auto"}>
-			<img className="rounded w-128 h-128" src={minioUrl} alt="Profile of pet" />
+			<img className="rounded w-[128px] h-[128px]" src={minioUrl} alt="Profile of pet" />
 			<h2 className={"text-4xl text-blue-600"}>{name}</h2>
 			<div className={"text-2xl text-blue-300"}>Pet Type: {petType}</div>
 			<div className={"space-x-8 my-1"}>
