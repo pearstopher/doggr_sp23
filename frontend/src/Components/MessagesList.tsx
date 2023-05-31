@@ -61,7 +61,7 @@ export const MessagesList = () => {
 					{receivedMessages.map((message, i) => (
 						<li className={"flex flex-wrap space-x-4 space-y-4 bg-blue-900"} key={message.id}>
 							<img
-								className={"rounded w-1/8"}
+								className={"rounded w-[128px] h-[128px]"}
 								src={minioUrl + message.imgUri}
 								alt="Profile of pet"
 							/>
@@ -84,7 +84,7 @@ export const MessagesList = () => {
 					{sentMessages.map((message, i) => (
 						<li className={"flex flex-wrap space-x-4 space-y-4 bg-blue-900"} key={message.id}>
 							<img
-								className={"rounded w-1/8"}
+								className={"rounded w-[128px] h-[128px]"}
 								src={minioUrl + message.imgUri}
 								alt="Profile of pet"
 							/>
