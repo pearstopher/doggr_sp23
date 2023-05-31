@@ -25,13 +25,15 @@ export function DoggrRouter() {
 							<li>
 								<Link to="/match"> Match</Link>
 							</li>{" "}
-							<li>
-								<Link to="/messages"> Messages</Link>
-							</li>
 							{auth?.token != null ? (
-								<li>
-									<Link to="/logout">Logout</Link>
-								</li>
+								<>
+									<li>
+										<Link to="/messages"> Messages</Link>
+									</li>
+									<li>
+										<Link to="/logout">Logout</Link>
+									</li>
+								</>
 							) : (
 								<>
 									<li>

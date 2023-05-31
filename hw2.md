@@ -49,7 +49,7 @@ state, but this is the one I settled with.
 
     - Restricted to logged-in users
     - Redirects to the login page if you are not logged in
-    - Displays when you aren't logged in (need to fix)
+    - Link displays only when logged in
     - Shows all messages both sent and received
 
    <br> Visually, each message contains:
