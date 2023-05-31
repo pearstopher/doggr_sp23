@@ -28,9 +28,9 @@ will work. This means any sneaky user could send a message as any
 other.)
     
    
-3. A new Message page. It should have, at minimum, the user
+3. *A new Message page. It should have, at minimum, the user
 you're messaging's profile picture, a text entry box for the 
-message, and a Send button for actually sending the message
+message, and a Send button for actually sending the message*
 
     <br>All three of these requirements are present! They are pretty
 basic, but they are all there and they work!
@@ -52,7 +52,7 @@ state, but this is the one I settled with.
     - Displays when you aren't logged in (need to fix)
     - Shows all messages both sent and received
 
-    Visually, each message contains:
+   <br> Visually, each message contains:
     - A small thumbnail picture next to the message text
     - A reply button that lets you send a message to the user
     - of course, the message text and the name of the dog as well
