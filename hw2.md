@@ -37,39 +37,23 @@ basic, but they are all there and they work!
     <br> The messages page uses URL variables, so the links look like
 "/message/[from]/[to]" where "from" is the user ID of the user who is
 sending the message, and "to" is the user ID fo the user who is
-receiving it.
+receiving it. I could think of a few ways to do this like using the saved
+state, but this is the one I settled with.
 
 ## Bonus
 
 1. Add a Message History page.
 
+    <br>Done! A user's messages are now located at the frontend URL
+"/messages/". The message page is:
+
+    - Restricted to logged-in users
+    - Redirects to the login page if you are not logged in
+    - Displays when you aren't logged in (need to fix)
+    - Shows all messages both sent and received
+
+    Visually, each message contains:
+    - A small thumbnail picture next to the message text
+    - A reply button that lets you send a message to the user
+    - of course, the message text and the name of the dog as well
     
-2. It should be restricted to logged-in users, so only show the link to the message history page if a user is logged in.  Similarly, ProtectedRoute it so that un-logged-in users get redirected to Login
-- The page itself should show all message exchanges sent from/to your user.
-- Each message should have a small thumbnail profile picture next to the text
-- Each message should have a "Reply" button that navigates to the Message page so that the user can respond
-
-
-
-
-
-
-
-We've already implemented Match and Pass functionality, so all that is left is Messaging between users.  This is your task!
-Hints:
-This is almost identical to Match/Pass!  The only difference is that instead of clicking Match, the user will have a text input box that transmits whatever text is inside of it (the message)
-Things you'll need that already exist:
-- You already developed the backend for this in the first HW (Message routes)
-- You also already have the database table for them (messages)
-- This doesn't mean you might not need to change htem a little as you work
-Things you'll need to add on frontend:
-- A button on the Match page to send said profile a message
-- The route to Messages should be a ProtectedRoute so that non-logged-in users are redirected to Login if they attempt to access Messages
-- A new Message page
-- It should have, at minimum, the user you're messaging's profile picture, a text entry box for the message, and a Send button for actually sending the message
-BONUS
-- Add a Message History page.  
-- It should be restricted to logged-in users, so only show the link to the message history page if a user is logged in.  Similarly, ProtectedRoute it so that un-logged-in users get redirected to Login
-- The page itself should show all message exchanges sent from/to your user.
-- Each message should have a small thumbnail profile picture next to the text
-- Each message should have a "Reply" button that navigates to the Message page so that the user can respond
