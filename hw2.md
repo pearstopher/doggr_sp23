@@ -22,10 +22,8 @@ to access Messages*
     <br>The route is protected. If users try to go here without
 being logged in, they are redirected to the login page. The API
 call that handles the sending and receiving of messages is protected 
-as well, so trying to send a message won't work unless you have
-a valid token. (It's not super protected though, any valid token
-will work. This means any sneaky user could send a message as any
-other.)
+as well, so trying to send a message via the API won't work unless 
+you have a valid token either.
     
    
 3. *A new Message page. It should have, at minimum, the user
@@ -50,6 +48,7 @@ state, but this is the one I settled with.
     - Restricted to logged-in users
     - Redirects to the login page if you are not logged in
     - Link displays only when logged in
+    - Backend route is protected via checking for valid token
     - Shows all messages both sent and received
 
    <br> Visually, each message contains:
