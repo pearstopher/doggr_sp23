@@ -18,3 +18,8 @@ export async function getNextProfileFromServer() {
 	const profile = await httpClient.get<ProfileType>("/profile");
 	return profile.data;
 }
+
+export async function getThisProfileFromServer(id) {
+	const profile = await httpClient.get<ProfileType>(`/profile/${id}`);
+	return profile.data;
+}

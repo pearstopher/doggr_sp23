@@ -2,7 +2,7 @@ import { Profile } from "@/Components/Profile.tsx";
 import { MessageProfile } from "@/Components/MessageProfile.tsx";
 import { ProfileType } from "@/DoggrTypes.ts";
 import { useAuth } from "@/Services/Auth.tsx";
-import { getNextProfileFromServer } from "@/Services/HttpClient.tsx";
+import { getNextProfileFromServer, getThisProfileFromServer } from "@/Services/HttpClient.tsx";
 import { MatchService } from "@/Services/MatchService.tsx";
 import { PassService } from "@/Services/PassService.tsx";
 import { MessageService } from "@/Services/MessageService.tsx";
@@ -19,7 +19,7 @@ export const Message = () => {
 	console.log(receiver);
 
 	const fetchProfile = () => {
-		getNextProfileFromServer()
+		getThisProfileFromServer(receiver)
 			.then((response) => setCurrentProfile(response))
 			.catch((err) => console.log("Error in fetch profile", err));
 	};
